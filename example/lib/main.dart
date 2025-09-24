@@ -99,17 +99,14 @@ class _HomePageState extends State<HomePage> {
                         detectionSpeed: DetectionSpeed.noDuplicates,
                       ),
                       // Validator to check if the barcode contains a specific string.
-                      validator: (value) {
-                        return value.barcodes.first.rawValue
-                                ?.contains('pub.dev') ??
-                            false;
+                      validator: (value, source) {
+                        return value.barcodes.first.rawValue?.contains('pub.dev') ?? false;
                       },
                       onDetect: (BarcodeCapture capture) {
                         /// Do something with the barcode
                         ///
                         if (mounted) {
-                          Navigator.pop(
-                              context, capture.barcodes.firstOrNull?.rawValue);
+                          Navigator.pop(context, capture.barcodes.firstOrNull?.rawValue);
                         }
                       },
                     ),

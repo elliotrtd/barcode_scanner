@@ -1,5 +1,6 @@
 // lib/src/gallery_button.dart
 
+import 'package:ai_barcode_scanner/ai_barcode_scanner.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,7 +15,7 @@ enum GalleryButtonType { none, icon, filled }
 class GalleryButton extends StatelessWidget {
   final void Function(String?)? onImagePick;
   final void Function(BarcodeCapture)? onDetect;
-  final bool Function(BarcodeCapture)? validator;
+  final bool Function(BarcodeCapture, BarcodeSource)? validator;
   final MobileScannerController controller;
   final ValueNotifier<bool?> isSuccess;
   final GalleryButtonType buttonType;
@@ -58,7 +59,7 @@ class GalleryButton extends StatelessWidget {
     if (barcodes != null) {
       bool isValid = true;
       if (validator != null) {
-        isValid = validator!(barcodes);
+        isValid = validator!(barcodes, BarcodeSource.gallery);
       }
 
       isSuccess.value = isValid;
@@ -98,7 +99,7 @@ class GalleryButton extends StatelessWidget {
           ),
         );
       default:
-        return const SizedBox.shrink();    
+        return const SizedBox.shrink();
     }
   }
 }
